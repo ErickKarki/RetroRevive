@@ -24,6 +24,7 @@ router.post(
 
     const newProduct = new Product({
       name: req.body.name,
+      // title: req.body.title,
       price: req.body.price,
       img: req.file.path, // Save Cloudinary URL in the product model
       category: req.body.category,

@@ -107,7 +107,7 @@ const Upload = () => {
       alert("Product uploaded successfully!");
     } catch (err) {
       console.error(err);
-      alert("Failed to upload product.");
+      // alert("Failed to upload product.");
     }
   };
 
