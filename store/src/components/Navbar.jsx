@@ -6,6 +6,8 @@ import styled from "styled-components";
 import { mobile } from "../responsive";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { CgProfile } from "react-icons/cg";
+
 const Container = styled.div`
   height: 60px;
   ${mobile({ height: "50px" })}
@@ -98,8 +100,15 @@ const Navbar = () => {
           </Link>
           {user ? (
             <>
-              <span style={{ padding: 10, fontSize: 20 }}>
-                Welcome, {user.username.toUpperCase()}
+              <span style={{ padding: 10 }}>
+                {/* <img
+                  src="" //{`${user?.avatar?.url}`}
+                  className="w-[35px] h-[35px] rounded-full"
+                  alt=""
+                /> */}
+                <Link to="/profile">
+                  <CgProfile size={30} className="cursor-pointer" />
+                </Link>
               </span>
               <MenuItem onClick={logout}>LOGOUT</MenuItem>
             </>

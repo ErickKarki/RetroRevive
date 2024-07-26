@@ -13,20 +13,24 @@ const Container = styled.div`
   justify-content: space-between;
 `;
 
-const Products = () => {
+const Products = ({ category }) => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get("http://localhost:5001/api/products");
+        const res = await axios.get(
+          category
+            ? `http://localhost:5001/api/products?category=${category}`
+            : "http://localhost:5001/api/products"
+        );
         setProducts(res.data);
       } catch (err) {
         console.error(err);
       }
     };
     fetchProducts();
-  }, []);
+  }, [category]);
   return (
     <Link to="/cart">
       <Container>

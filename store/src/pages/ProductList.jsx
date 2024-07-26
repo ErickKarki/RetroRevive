@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import Announcement from "../components/Announcement";
 import Products from "../components/Products";
 import { mobile } from "../responsive";
+import { useParams } from "react-router-dom";
 
 const Container = styled.div``;
 
@@ -35,11 +36,13 @@ const Select = styled.select`
 const Option = styled.option``;
 
 const ProductList = () => {
+  const { category } = useParams();
+
   return (
     <Container>
       <Navbar />
       <Announcement />
-      <Title>Apparel</Title>
+      <Title>{category ? category : "Apparel"}</Title>
       <FilterContainer>
         {/* <Filter>
           <FilterText>Filter Products:</FilterText>
@@ -74,7 +77,7 @@ const ProductList = () => {
           </Select>
         </Filter>
       </FilterContainer>
-      <Products />
+      <Products category={category} />
     </Container>
   );
 };

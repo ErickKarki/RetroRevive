@@ -98,26 +98,24 @@ router.get("/find/:id", async (req, res) => {
 router.get("/", async (req, res) => {
   const qNew = req.query.new;
   const qCategory = req.query.category;
+
   try {
     let products;
-
     if (qNew) {
       products = await Product.find().sort({ createdAt: -1 }).limit(1);
     } else if (qCategory) {
+      console.log("Querying products by category:", qCategory);
       products = await Product.find({
-        categories: {
-          $in: [qCategory],
-        },
+        category: qCategory,
       });
+      console.log("Found products:", products);
     } else {
       products = await Product.find();
     }
-
     res.status(200).json(products);
   } catch (err) {
     console.error("Error finding products:", err);
-
-    res.status(500).json(err);
+    res.status(500).json({ message: "Internal Server Error", error: err });
   }
 });
 

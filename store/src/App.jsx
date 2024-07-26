@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Cart from "./pages/Cart";
+import Profile from "./pages/Profile";
 import ProductList from "./pages/ProductList";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Upload from "./pages/Upload";
@@ -23,12 +24,16 @@ const App = () => {
       element: <Register />,
     },
     {
-      path: "/products/:categories",
+      path: "/products/:category?",
       element: <ProductList />,
     },
     {
       path: "/cart",
       element: <Cart />,
+    },
+    {
+      path: "/profile",
+      element: <Profile />,
     },
     {
       path: "/upload",
