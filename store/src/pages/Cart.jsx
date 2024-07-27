@@ -200,7 +200,7 @@ const Cart = () => {
   return (
     <Container>
       <Navbar />
-      <Announcement />
+      {/* <Announcement /> */}
       <Wrapper>
         <Title>YOUR BAG</Title>
         <Top>

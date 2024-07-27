@@ -41,7 +41,7 @@ const ProductList = () => {
   return (
     <Container>
       <Navbar />
-      <Announcement />
+      {/* <Announcement /> */}
       <Title>{category ? category : "Apparel"}</Title>
       <FilterContainer>
         {/* <Filter>

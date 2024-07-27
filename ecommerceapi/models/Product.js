@@ -11,7 +11,7 @@ const ProductSchema = new mongoose.Schema(
     // price: { type: Number, required: true },
     // inStock: { type: Boolean, default: true },
 
-    name: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
     price: { type: Number, required: true },
     category: { type: String, required: true },
     img: { type: String, required: true },
@@ -19,5 +19,16 @@ const ProductSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+// Middleware to convert category to lowercase before saving
+ProductSchema.pre("save", function (next) {
+  if (this.isModified("category")) {
+    this.category = this.category.toLowerCase();
+  }
+  next();
+});
+
+// Create text index for name and description
+ProductSchema.index({ name: "text", category: "text" });
 
 module.exports = mongoose.model("Product", ProductSchema);

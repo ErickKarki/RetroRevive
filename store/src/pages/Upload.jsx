@@ -143,9 +143,9 @@ const Upload = () => {
               <Option disabled selected>
                 Select Category
               </Option>
-              <Option value="Kids">Kids</Option>
-              <Option value="Women">Women</Option>
-              <Option value="Men">Men</Option>
+              <Option value="kids">Kids</Option>
+              <Option value="women">Women</Option>
+              <Option value="men">Men</Option>
             </Select>
 
             <Agreement>

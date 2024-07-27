@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const Container = styled.div`
   height: 30px;
-  background-color: teal;
+  background: linear-gradient(145deg, #2b4f73, #3a9cab);
   color: white;
   display: flex;
   align-items: center;
@@ -12,7 +12,7 @@ const Container = styled.div`
 `;
 
 const Announcement = () => {
-  return <Container>Website Launching Soon!</Container>;
+  return <Container></Container>;
 };
 
 export default Announcement;

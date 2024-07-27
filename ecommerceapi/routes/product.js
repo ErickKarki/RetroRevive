@@ -113,7 +113,7 @@ router.get("/", async (req, res) => {
       console.log("Querying products by category:", qCategory);
       products = await Product.find({
         category: qCategory,
-      });
+      }).populate("user", "email");
       console.log("Found products:", products);
     } else {
       products = await Product.find();
