@@ -12,7 +12,10 @@ const Container = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
 `;
-
+const StyledLink = styled(Link)`
+  text-decoration: none; // This removes the underline
+  color: inherit; // This ensures the text color is inherited from the parent component
+`;
 const Products = ({ category }) => {
   const [products, setProducts] = useState([]);
 
@@ -32,13 +35,13 @@ const Products = ({ category }) => {
     fetchProducts();
   }, [category]);
   return (
-    <Link to="/cart">
-      <Container>
-        {products.map((item) => (
-          <Product item={item} key={item.id} />
-        ))}
-      </Container>
-    </Link>
+    <Container>
+      {products.map((item) => (
+        <StyledLink to={`/product/${item._id}`} key={item._id}>
+          <Product item={item} />
+        </StyledLink>
+      ))}
+    </Container>
   );
 };
 

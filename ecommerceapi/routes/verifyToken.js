@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 
+// Middleware to verify the token
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (authHeader) {
@@ -7,6 +8,8 @@ const verifyToken = (req, res, next) => {
     jwt.verify(token, process.env.JWT_SEC, (err, user) => {
       if (err) return res.status(403).json("Token is not valid!");
       req.user = user;
+      console.log("Verified user:", req.user); // Debugging line
+
       next();
     });
   } else {
@@ -16,7 +19,7 @@ const verifyToken = (req, res, next) => {
 
 const verifyTokenAndAuthorization = (req, res, next) => {
   verifyToken(req, res, () => {
-    if (req.user.id === req.params.id || req.user.isAdmin) {
+    if (req.user._id === req.params.id || req.user.isAdmin) {
       next();
     } else {
       res.status(403).json("You are not allowed to do that! Erick dai");

@@ -110,6 +110,9 @@ const Navbar = () => {
                   <CgProfile size={30} className="cursor-pointer" />
                 </Link>
               </span>
+              <span style={{ padding: 10, fontSize: 18 }}>
+                Welcome, {user.username.toUpperCase()}
+              </span>
               <MenuItem onClick={logout}>LOGOUT</MenuItem>
             </>
           ) : (

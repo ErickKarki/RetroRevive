@@ -18,6 +18,8 @@ router.post(
   async (req, res) => {
     console.log("Request body:", req.body);
     console.log("File info:", req.file);
+    console.log("User info:", req.user); // Check this output
+
     if (!req.file) {
       return res.status(400).json({ error: "Image is required" });
     }
@@ -28,6 +30,8 @@ router.post(
       price: req.body.price,
       img: req.file.path, // Save Cloudinary URL in the product model
       category: req.body.category,
+      user: req.user._id, // Associate the product with the authenticated user
+
       // size: req.body.size,
       // color: req.body.color,
       // price: req.body.price,
@@ -83,13 +87,15 @@ router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
 });
 
 //GET PRODUCT
-router.get("/find/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id).populate({
+      path: "user",
+      select: "email", // Populate only the email field
+    });
     res.status(200).json(product);
   } catch (err) {
     console.error("Error finding product:", err);
-
     res.status(500).json(err);
   }
 });

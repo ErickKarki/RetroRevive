@@ -27,10 +27,12 @@ const App = () => {
       path: "/products/:category?",
       element: <ProductList />,
     },
+
     {
-      path: "/cart",
+      path: "/product/:id",
       element: <Cart />,
     },
+
     {
       path: "/profile",
       element: <Profile />,

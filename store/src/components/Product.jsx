@@ -23,7 +23,7 @@ const Info = styled.div`
 
 const Container = styled.div`
   flex: 1;
-  margin: 5px;
+  margin: 10px;
   margin-bottom: 40px;
   min-width: 280px;
   height: 350px;
@@ -31,12 +31,21 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #f5fbfd;
+  background: linear-gradient(145deg, #ffffff, #f0f0f0);
+  border-radius: 15px;
+  /* background-color: #f5fbfd; */
   position: relative;
   /* box-shadow: 5px 5px 5px hsla(0, 0%, 0%, 0.2); */
 
-  &:hover ${Info} {
+  /* &:hover ${Info} {
     opacity: 1;
+  } */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   }
 `;
 
@@ -74,25 +83,63 @@ const Details = styled.div`
   display: flex;
   flex-direction: column;
   border: 1px solid hsl(0, 0%, 80%);
-  border-radius: 10px;
+  /* border-radius: 10px; */
   border: none;
   padding: 10px;
-  background-color: hsl(180, 100%, 25.098039215686274%, 0.9);
+  background: linear-gradient(145deg, #2b4f73, #3a9cab);
   color: white;
   width: 80%;
+  /* border-radius: 15px; */
 `;
+// const Details = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   border: none;
+//   padding: 15px;
+//   background: linear-gradient(
+//     145deg,
+//     rgba(32, 124, 229, 0.9),
+//     rgba(18, 82, 161, 0.9)
+//   );
+//   color: white;
+//   width: 80%;
+//   border-radius: 15px;
+//   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+//   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+//   &:hover {
+//     transform: translateY(-5px);
+//     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+//   }
+// `;
+
+// const ProductName = styled.h1`
+//   font-size: 22px;
+//   font-weight: 500;
+//   margin-bottom: 5px;
+//   text-align: center;
+// `;
+// const ProductPrice = styled.h2`
+//   font-size: 18px;
+//   font-weight: 400;
+//   text-align: center;
+// `;
 const ProductName = styled.h1`
   font-size: 22px;
   font-weight: 500;
   margin-bottom: 5px;
   text-align: center;
-`;
-const ProductPrice = styled.h2`
-  font-size: 18px;
-  font-weight: 400;
-  text-align: center;
+  color: #e0e0e0;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 `;
 
+const ProductPrice = styled.h2`
+  font-size: 18px;
+  font-weight: 300;
+  text-align: center;
+  color: #f0f0f0;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+`;
 const Product = ({ item }) => {
   return (
     <Container>

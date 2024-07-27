@@ -5,6 +5,7 @@ import bgImage from "../assets/background.jpg";
 import Navbar from "../components/Navbar";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Container = styled.div`
   width: 100vw;
@@ -87,11 +88,18 @@ const Register = () => {
         password: formData.password,
       });
       console.log(res.data);
-      alert("Registration successful!");
+      Swal.fire({
+        title: "Registration Sucessfull",
+        text: "Enjoy Retro Revive",
+        icon: "success",
+      });
       navigate("/login");
     } catch (err) {
       console.error(err);
-      alert("Registration failed!");
+      Swal.fire({
+        title: "Registration Failed",
+        icon: "error",
+      });
     }
   };
   return (
