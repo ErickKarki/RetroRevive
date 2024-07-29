@@ -3,7 +3,8 @@ import Navbar from "../components/Navbar";
 import Announcement from "../components/Announcement";
 import Products from "../components/Products";
 import { mobile } from "../responsive";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const Container = styled.div``;
 
@@ -37,47 +38,34 @@ const Option = styled.option``;
 
 const ProductList = () => {
   const { category } = useParams();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const search = new URLSearchParams(location.search).get("search") || "";
+  const [price, setPrice] = useState("asc");
+
+  const handlePriceChange = (e) => {
+    const selectedPrice = e.target.value;
+    setPrice(selectedPrice);
+    navigate(
+      `/products?category=${category}&search=${search}&price=${selectedPrice}`
+    );
+  };
 
   return (
     <Container>
       <Navbar />
-      {/* <Announcement /> */}
+      <Announcement />
       <Title>{category ? category : "Apparel"}</Title>
       <FilterContainer>
-        {/* <Filter>
-          <FilterText>Filter Products:</FilterText>
-          <Select>
-            <Option disabled selected>
-              Color
-            </Option>
-            <Option>White</Option>
-            <Option>Black</Option>
-            <Option>Red</Option>
-            <Option>Blue</Option>
-            <Option>Yellow</Option>
-            <Option>Green</Option>
-          </Select>
-          <Select>
-            <Option disabled selected>
-              Size
-            </Option>
-            <Option>XS</Option>
-            <Option>S</Option>
-            <Option>M</Option>
-            <Option>L</Option>
-            <Option>XL</Option>
-          </Select>
-        </Filter> */}
         <Filter>
           <FilterText>Sort Products:</FilterText>
-          <Select>
-            <Option selected>Newest</Option>
-            <Option>Price (asc)</Option>
-            <Option>Price (desc)</Option>
+          <Select value={price} onChange={handlePriceChange}>
+            <Option value="asc">Price (asc)</Option>
+            <Option value="desc">Price (desc)</Option>
           </Select>
         </Filter>
       </FilterContainer>
-      <Products category={category} />
+      <Products category={category} search={search} price={price} />
     </Container>
   );
 };

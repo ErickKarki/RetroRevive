@@ -1,39 +1,50 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
 import styled from "styled-components";
-// import { popularProducts } from "../data";
 import Product from "./Product";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Container = styled.div`
   padding: 20px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
 `;
+
 const StyledLink = styled(Link)`
-  text-decoration: none; // This removes the underline
-  color: inherit; // This ensures the text color is inherited from the parent component
+  text-decoration: none;
+  color: inherit;
 `;
-const Products = ({ category }) => {
+
+const Products = ({ category, search, price }) => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get(
-          category
-            ? `http://localhost:5001/api/products?category=${category}`
-            : "http://localhost:5001/api/products"
-        );
+        let url = "http://localhost:5001/api/products";
+        if (category || search || price) {
+          url += "?";
+        }
+        if (category) {
+          url += `category=${category}&`;
+        }
+        if (search) {
+          url += `search=${search}&`;
+        }
+        if (price) {
+          url += `price=${price}&`;
+        }
+        url = url.slice(0, -1); // Remove trailing '&' or '?'
+
+        const res = await axios.get(url);
         setProducts(res.data);
       } catch (err) {
         console.error(err);
       }
     };
     fetchProducts();
-  }, [category]);
+  }, [category, search, price]);
+
   return (
     <Container>
       {products.map((item) => (

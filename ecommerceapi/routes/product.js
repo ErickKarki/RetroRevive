@@ -104,20 +104,31 @@ router.get("/:id", async (req, res) => {
 router.get("/", async (req, res) => {
   const qNew = req.query.new;
   const qCategory = req.query.category;
+  const search = req.query.search || "";
+  const price = req.query.price || "asc";
 
   try {
     let products;
-    if (qNew) {
-      products = await Product.find().sort({ createdAt: -1 }).limit(1);
-    } else if (qCategory) {
-      console.log("Querying products by category:", qCategory);
-      products = await Product.find({
-        category: qCategory,
-      }).populate("user", "email");
-      console.log("Found products:", products);
-    } else {
-      products = await Product.find();
+
+    // Build the query object
+    const query = {};
+
+    if (qCategory) {
+      query.category = qCategory;
     }
+
+    if (search) {
+      query.name = { $regex: search, $options: "i" }; // 'i' for case-insensitive
+    }
+
+    if (qNew) {
+      products = await Product.find(query).sort({ createdAt: -1 }).limit(1);
+    } else {
+      products = await Product.find(query)
+        .sort({ price: price === "asc" ? 1 : -1 })
+        .populate("user", "email");
+    }
+
     res.status(200).json(products);
   } catch (err) {
     console.error("Error finding products:", err);
@@ -125,4 +136,5 @@ router.get("/", async (req, res) => {
   }
 });
 
+module.exports = router;
 module.exports = router;
