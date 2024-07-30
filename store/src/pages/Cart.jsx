@@ -1,8 +1,13 @@
 import { Add, Remove } from "@material-ui/icons";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Navbar from "../components/Navbar";
 import { mobile } from "../responsive";
+import { Link } from "react-router-dom";
 
 const Container = styled.div``;
 
@@ -178,14 +183,31 @@ const TextBox = styled.textarea`
 `;
 
 const Cart = () => {
+  const { id } = useParams();
+  const [product, setProduct] = useState({});
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const res = await axios.get(`http://localhost:5001/api/products/${id}`);
+        setProduct(res.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchProduct();
+  }, [id]);
   return (
     <Container>
       <Navbar />
-      <Announcement />
+      {/* <Announcement /> */}
       <Wrapper>
         <Title>YOUR BAG</Title>
         <Top>
-          <TopButton>CONTINUE SHOPPING</TopButton>
+          <Link to="/">
+            <TopButton>CONTINUE SHOPPING</TopButton>
+          </Link>
+
           {/* <TopTexts>
             <TopText>Shopping Bag(2)</TopText>
             <TopText>Your Wishlist (0)</TopText>
@@ -196,14 +218,14 @@ const Cart = () => {
           <Info>
             <Product>
               <ProductDetail>
-                <Image src="https://d3o2e4jr3mxnm3.cloudfront.net/Mens-Jake-Guitar-Vintage-Crusher-Tee_68382_1_lg.png" />
+                <Image src={product.img} />
                 <Details>
                   <Desc>
                     <ProductName>
-                      <b>Product:</b> Vintage T-Shirt
+                      <b>Product:</b> {product.name}
                     </ProductName>
                     <ProductPrice>
-                      <b>Price:</b> Rs.400
+                      <b>Price:</b> {product.price}
                     </ProductPrice>
                     {/* <ProductId>
                       <b>ID:</b> 93813718293
@@ -217,9 +239,9 @@ const Cart = () => {
                   <SellerDetails>
                     <SellerTitle>Seller Details:</SellerTitle>
                     <About>
-                      <Contact>Contact:</Contact>
-                      <Email>Email:</Email>
-                      <Location>Location:</Location>
+                      {/* <Contact>Contact:</Contact> */}
+                      <Email>Email:{product.user?.email}</Email>
+                      {/* <Location>Location:</Location> */}
                     </About>
                     <Chat>Chat with seller</Chat>
                   </SellerDetails>

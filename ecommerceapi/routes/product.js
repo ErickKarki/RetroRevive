@@ -18,15 +18,20 @@ router.post(
   async (req, res) => {
     console.log("Request body:", req.body);
     console.log("File info:", req.file);
+    console.log("User info:", req.user); // Check this output
+
     if (!req.file) {
       return res.status(400).json({ error: "Image is required" });
     }
 
     const newProduct = new Product({
       name: req.body.name,
+      // title: req.body.title,
       price: req.body.price,
       img: req.file.path, // Save Cloudinary URL in the product model
       category: req.body.category,
+      user: req.user._id, // Associate the product with the authenticated user
+
       // size: req.body.size,
       // color: req.body.color,
       // price: req.body.price,
@@ -82,13 +87,15 @@ router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
 });
 
 //GET PRODUCT
-router.get("/find/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id).populate({
+      path: "user",
+      select: "email", // Populate only the email field
+    });
     res.status(200).json(product);
   } catch (err) {
     console.error("Error finding product:", err);
-
     res.status(500).json(err);
   }
 });
@@ -97,26 +104,40 @@ router.get("/find/:id", async (req, res) => {
 router.get("/", async (req, res) => {
   const qNew = req.query.new;
   const qCategory = req.query.category;
+  const qSearch = req.query.search;
+
   try {
     let products;
-
     if (qNew) {
       products = await Product.find().sort({ createdAt: -1 }).limit(1);
     } else if (qCategory) {
       products = await Product.find({
-        categories: {
-          $in: [qCategory],
-        },
-      });
+        category: qCategory,
+      }).populate("user", "email");
+    } else if (qSearch) {
+      const searchRegex = new RegExp(qSearch, "i"); // case-insensitive regex
+      products = await Product.find({
+        $or: [{ name: searchRegex }, { category: searchRegex }],
+      }).populate("user", "email");
     } else {
       products = await Product.find();
     }
-
     res.status(200).json(products);
   } catch (err) {
     console.error("Error finding products:", err);
+    res.status(500).json({ message: "Internal Server Error", error: err });
+  }
+});
 
-    res.status(500).json(err);
+router.get("/user/products", verifyToken, async (req, res) => {
+  try {
+    const userId = req.user._id; // This should be an ObjectId
+
+    const products = await Product.find({ user: userId });
+    res.status(200).json(products);
+  } catch (err) {
+    console.error("Error finding user products:", err);
+    res.status(500).json({ message: "Internal Server Error", error: err });
   }
 });
 

@@ -6,6 +6,7 @@ import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext"; // Adjust the path to where your AuthContext is defined
+import Swal from "sweetalert2";
 
 const Container = styled.div`
   width: 100vw;
@@ -91,10 +92,18 @@ const Login = () => {
       // Update user state
       setUser(user);
       navigate("/");
-      alert("Login successful!");
+      Swal.fire({
+        title: "Login Sucessfull",
+        text: "Enjoy Retro Revive",
+        icon: "success",
+      });
     } catch (err) {
       console.log(err);
-      alert("Login failed!");
+      Swal.fire({
+        title: "Login Failed",
+        text: "Please Try Again",
+        icon: "error",
+      });
     }
   };
   return (
