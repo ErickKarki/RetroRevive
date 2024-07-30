@@ -4,6 +4,8 @@ import Navbar from "../components/Navbar";
 import bgImage from "../assets/background.jpg";
 import { useState } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   width: 100vw;
@@ -67,6 +69,7 @@ const Select = styled.select`
 `;
 const Option = styled.option``;
 const Upload = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     price: "",
@@ -104,7 +107,12 @@ const Upload = () => {
           },
         }
       );
-      alert("Product uploaded successfully!");
+      Swal.fire({
+        title: "Uploaded",
+        text: "Product uploaded successfully!",
+        icon: "success",
+      });
+      navigate("/");
     } catch (err) {
       console.error(err);
       // alert("Failed to upload product.");
