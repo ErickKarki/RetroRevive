@@ -104,17 +104,21 @@ router.get("/:id", async (req, res) => {
 router.get("/", async (req, res) => {
   const qNew = req.query.new;
   const qCategory = req.query.category;
+  const qSearch = req.query.search;
 
   try {
     let products;
     if (qNew) {
       products = await Product.find().sort({ createdAt: -1 }).limit(1);
     } else if (qCategory) {
-      console.log("Querying products by category:", qCategory);
       products = await Product.find({
         category: qCategory,
       }).populate("user", "email");
-      console.log("Found products:", products);
+    } else if (qSearch) {
+      const searchRegex = new RegExp(qSearch, "i"); // case-insensitive regex
+      products = await Product.find({
+        $or: [{ name: searchRegex }, { category: searchRegex }],
+      }).populate("user", "email");
     } else {
       products = await Product.find();
     }

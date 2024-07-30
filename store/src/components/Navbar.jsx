@@ -1,10 +1,10 @@
+import React, { useState } from "react";
 import { Badge } from "@material-ui/core";
 import { Search, ShoppingCartOutlined } from "@material-ui/icons";
-import React from "react";
 import { useContext } from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { CgProfile } from "react-icons/cg";
 
@@ -55,6 +55,7 @@ const Logo = styled.h1`
   font-weight: bold;
   ${mobile({ fontSize: "24px" })}
 `;
+
 const Right = styled.div`
   flex: 1;
   display: flex;
@@ -78,6 +79,14 @@ const MenuItem = styled.button`
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
+
+  const handleSearch = (event) => {
+    if (event.key === "Enter") {
+      navigate(`/products?search=${searchQuery}`);
+    }
+  };
 
   return (
     <Container>
@@ -85,7 +94,12 @@ const Navbar = () => {
         <Left>
           <Language>EN</Language>
           <SearchContainer>
-            <Input placeholder="Search" />
+            <Input
+              placeholder="Search"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyPress={handleSearch}
+            />
             <Search style={{ color: "gray", fontSize: 16 }} />
           </SearchContainer>
         </Left>
@@ -101,11 +115,6 @@ const Navbar = () => {
           {user ? (
             <>
               <span style={{ padding: 10 }}>
-                {/* <img
-                  src="" //{`${user?.avatar?.url}`}
-                  className="w-[35px] h-[35px] rounded-full"
-                  alt=""
-                /> */}
                 <Link to="/profile">
                   <CgProfile size={30} className="cursor-pointer" />
                 </Link>

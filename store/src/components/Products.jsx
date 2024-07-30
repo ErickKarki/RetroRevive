@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
 import styled from "styled-components";
-// import { popularProducts } from "../data";
 import Product from "./Product";
 import { Link } from "react-router-dom";
 
@@ -12,35 +10,63 @@ const Container = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
 `;
+
 const StyledLink = styled(Link)`
   text-decoration: none; // This removes the underline
   color: inherit; // This ensures the text color is inherited from the parent component
 `;
-const Products = ({ category }) => {
-  const [products, setProducts] = useState([]);
+
+const Products = ({ category, searchQuery, products: initialProducts }) => {
+  const [products, setProducts] = useState(initialProducts || []);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await axios.get(
-          category
-            ? `http://localhost:5001/api/products?category=${category}`
-            : "http://localhost:5001/api/products"
-        );
-        setProducts(res.data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchProducts();
-  }, [category]);
+    if (!initialProducts || initialProducts.length === 0) {
+      const fetchProducts = async () => {
+        try {
+          let url = `http://localhost:5001/api/products`;
+          if (category || searchQuery) {
+            url += `?`;
+            if (category) {
+              url += `category=${category}&`;
+            }
+            if (searchQuery) {
+              url += `search=${searchQuery}`;
+            }
+          }
+          console.log("Fetching from URL:", url); // Add this line
+
+          const res = await axios.get(url);
+          console.log("Response data:", res.data); // Add this line
+
+          if (Array.isArray(res.data)) {
+            setProducts(res.data);
+          } else {
+            console.error("Unexpected data format", res.data);
+            setProducts([]);
+          }
+        } catch (err) {
+          console.error(err);
+          setProducts([]);
+        }
+      };
+
+      fetchProducts();
+    } else {
+      setProducts(initialProducts);
+    }
+  }, [category, searchQuery, initialProducts]);
+
   return (
     <Container>
-      {products.map((item) => (
-        <StyledLink to={`/product/${item._id}`} key={item._id}>
-          <Product item={item} />
-        </StyledLink>
-      ))}
+      {Array.isArray(products) && products.length > 0 ? (
+        products.map((item) => (
+          <StyledLink to={`/product/${item._id}`} key={item._id}>
+            <Product item={item} />
+          </StyledLink>
+        ))
+      ) : (
+        <p>No products found</p>
+      )}
     </Container>
   );
 };

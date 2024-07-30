@@ -20,14 +20,11 @@ const ProductSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Middleware to convert category to lowercase before saving
+// Pre-save hook to convert category to lowercase
 ProductSchema.pre("save", function (next) {
-  if (this.isModified("category")) {
-    this.category = this.category.toLowerCase();
-  }
+  this.category = this.category.toLowerCase();
   next();
 });
-
 // Create text index for name and description
 ProductSchema.index({ name: "text", category: "text" });
 

@@ -1,9 +1,10 @@
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
-import Announcement from "../components/Announcement";
 import Products from "../components/Products";
 import { mobile } from "../responsive";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
+import axios from "axios";
 
 const Container = styled.div``;
 
@@ -33,41 +34,43 @@ const Select = styled.select`
   margin-right: 20px;
   ${mobile({ margin: "10px 0px" })}
 `;
+
 const Option = styled.option``;
 
 const ProductList = () => {
   const { category } = useParams();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const searchQuery = searchParams.get("search") || "";
+
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        let url = `/api/products?search=${searchQuery}`;
+        if (category) {
+          url += `&category=${category}`;
+        }
+
+        const res = await axios.get(url);
+        setProducts(res.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchProducts();
+  }, [category, searchQuery]);
 
   return (
     <Container>
       <Navbar />
-      {/* <Announcement /> */}
-      <Title>{category ? category : "Apparel"}</Title>
+      <Title>
+        {category
+          ? category.charAt(0).toUpperCase() + category.slice(1)
+          : "Apparel"}
+      </Title>
       <FilterContainer>
-        {/* <Filter>
-          <FilterText>Filter Products:</FilterText>
-          <Select>
-            <Option disabled selected>
-              Color
-            </Option>
-            <Option>White</Option>
-            <Option>Black</Option>
-            <Option>Red</Option>
-            <Option>Blue</Option>
-            <Option>Yellow</Option>
-            <Option>Green</Option>
-          </Select>
-          <Select>
-            <Option disabled selected>
-              Size
-            </Option>
-            <Option>XS</Option>
-            <Option>S</Option>
-            <Option>M</Option>
-            <Option>L</Option>
-            <Option>XL</Option>
-          </Select>
-        </Filter> */}
         <Filter>
           <FilterText>Sort Products:</FilterText>
           <Select>
@@ -77,7 +80,11 @@ const ProductList = () => {
           </Select>
         </Filter>
       </FilterContainer>
-      <Products category={category} />
+      <Products
+        category={category}
+        searchQuery={searchQuery}
+        products={products}
+      />
     </Container>
   );
 };
