@@ -27,14 +27,12 @@ const App = () => {
       path: "/products/:category?",
       element: <ProductList />,
     },
-
     {
       path: "/product/:id",
       element: <Cart />,
     },
-
     {
-      path: "/profile",
+      path: "/profile/*",
       element: <Profile />,
     },
     {

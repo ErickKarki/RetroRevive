@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 import { CiSettings } from "react-icons/ci";
 import { FaRegMessage } from "react-icons/fa6";
 import { AiOutlineProduct } from "react-icons/ai";
@@ -16,28 +16,26 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar }) => {
           X
         </span>
       </div>
-
       <ul className="sidebar-list">
         <li className="sidebar-list-item">
-          <a href="">
+          <Link to="/profile/dashboard">
             <MdDashboard className="icon" /> Dashboard
-          </a>
+          </Link>
         </li>
         <li className="sidebar-list-item">
-          <a href="">
+          <Link to="/profile/products">
             <AiOutlineProduct className="icon" /> Products
-          </a>
+          </Link>
         </li>
         <li className="sidebar-list-item">
-          <a href="">
+          <Link to="/profile/messages">
             <FaRegMessage className="icon" /> Messages
-          </a>
+          </Link>
         </li>
-
         <li className="sidebar-list-item">
-          <a href="">
-            <CiSettings className="icon" /> Setting
-          </a>
+          <Link to="/profile/settings">
+            <CiSettings className="icon" /> Settings
+          </Link>
         </li>
       </ul>
     </aside>
