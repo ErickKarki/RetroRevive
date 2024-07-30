@@ -129,4 +129,16 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/user/products", verifyToken, async (req, res) => {
+  try {
+    const userId = req.user._id; // This should be an ObjectId
+
+    const products = await Product.find({ user: userId });
+    res.status(200).json(products);
+  } catch (err) {
+    console.error("Error finding user products:", err);
+    res.status(500).json({ message: "Internal Server Error", error: err });
+  }
+});
+
 module.exports = router;

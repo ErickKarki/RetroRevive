@@ -7,6 +7,10 @@ const verifyToken = (req, res, next) => {
     const token = authHeader.split(" ")[1];
     jwt.verify(token, process.env.JWT_SEC, (err, user) => {
       if (err) return res.status(403).json("Token is not valid!");
+      // Ensure _id is an ObjectId
+      // if (user._id && mongoose.Types.ObjectId.isValid(user._id)) {
+      //   user._id = mongoose.Types.ObjectId(user._id);
+      // }
       req.user = user;
       console.log("Verified user:", req.user); // Debugging line
 
