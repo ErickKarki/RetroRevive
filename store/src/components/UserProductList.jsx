@@ -43,12 +43,35 @@ const UserProductList = () => {
     fetchUserProducts();
   }, []);
 
+  const handleDelete = async (productId) => {
+    console.log("Deleting product with id:", productId); // Debugging log
+
+    try {
+      await axios.delete(`http://localhost:5001/api/products/${productId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      setProducts(products.filter((product) => product._id !== productId));
+    } catch (err) {
+      console.error("Error deleting product:", err);
+      setError(err);
+    }
+  };
   return (
     <Container>
       {products.length === 0 ? (
         <div>No products found</div>
       ) : (
-        products.map((item) => <Product key={item._id} item={item} />)
+        products.map((item) => (
+          <Product
+            key={item._id}
+            item={item}
+            showDeleteButton={true}
+            handleDelete={handleDelete}
+          />
+        ))
       )}
     </Container>
   );

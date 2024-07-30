@@ -4,6 +4,7 @@
 //   ShoppingCartOutlined,
 // } from "@material-ui/icons";
 import styled from "styled-components";
+import Swal from "sweetalert2";
 
 const Info = styled.div`
   opacity: 0;
@@ -140,22 +141,63 @@ const ProductPrice = styled.h2`
   color: #f0f0f0;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 `;
-const Product = ({ item }) => {
+
+const DeleteButton = styled.button`
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  z-index: 10;
+`;
+
+const Product = ({ item, showDeleteButton, handleDelete }) => {
+  const confirmDelete = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleDelete(item._id);
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
+      }
+    });
+  };
+
   return (
     <Container>
-      {/* <Circle /> */}
+      {showDeleteButton && (
+        <DeleteButton
+          onClick={() => {
+            console.log("Delete button clicked for product:", item._id);
+            // handleDelete(item._id);
+            confirmDelete();
+          }}
+        >
+          X
+        </DeleteButton>
+      )}
       <Image src={item.img} />
-      <Info>
-        {/* <Icon>
-          <ShoppingCartOutlined />
-          </Icon>
-          <Icon>
-          <SearchOutlined />
-          </Icon>
-          <Icon>
-          <FavoriteBorderOutlined />
-          </Icon> */}
-      </Info>
+      <Info></Info>
       <Details>
         <ProductName>{item.name}</ProductName>
         <ProductPrice>Rs. {item.price}</ProductPrice>
