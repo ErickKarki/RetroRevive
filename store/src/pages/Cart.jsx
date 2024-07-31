@@ -8,6 +8,7 @@ import Announcement from "../components/Announcement";
 import Navbar from "../components/Navbar";
 import { mobile } from "../responsive";
 import { Link } from "react-router-dom";
+import CheckoutModal from "../components/CheckoutModal";
 
 const Container = styled.div``;
 
@@ -189,6 +190,7 @@ const HR = styled.hr`
 const Cart = () => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -201,6 +203,14 @@ const Cart = () => {
     };
     fetchProduct();
   }, [id]);
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <Container>
       <Navbar />
@@ -259,7 +269,7 @@ const Cart = () => {
             <HR />
             <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>Rs.800</SummaryItemPrice>
+              <SummaryItemPrice>{product.price}</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Estimated Shipping</SummaryItemText>
@@ -267,12 +277,17 @@ const Cart = () => {
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>Rs.900</SummaryItemPrice>
+              <SummaryItemPrice>Rs.{product.price + 100}</SummaryItemPrice>
             </SummaryItem>
-            <Button>CHECKOUT NOW</Button>
+            <Button onClick={openModal}>CHECKOUT NOW</Button>
           </Summary>
         </Bottom>
       </Wrapper>
+      <CheckoutModal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        product={product}
+      />
     </Container>
   );
 };
