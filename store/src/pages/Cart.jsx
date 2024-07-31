@@ -9,6 +9,7 @@ import Navbar from "../components/Navbar";
 import { mobile } from "../responsive";
 import { Link } from "react-router-dom";
 import CheckoutModal from "../components/CheckoutModal";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
 const Container = styled.div``;
 
@@ -104,11 +105,22 @@ const Location = styled.div`
 
 const Chat = styled.button`
   margin-top: 10px;
-  width: 40%;
-  height: 40px;
-  background: linear-gradient(145deg, #2b4f73, #3a9cab);
-  color: white;
+  padding: 10px 20px;
   border: none;
+  border-radius: 5px;
+  background-color: #128c7e; /* WhatsApp color */
+  color: white;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* Add space between the logo and text */
+
+  i {
+    font-size: 24px; /* Increase the icon size */
+  }
 `;
 
 const ProductName = styled.div`
@@ -211,6 +223,14 @@ const Cart = () => {
     setIsModalOpen(false);
   };
 
+  // const sellerPhoneNumber = item.sellerPhoneNumber; // Ensure this is in the correct format
+  const sellerPhoneNumber = +9779847025013;
+
+  const handleChatWithSeller = () => {
+    const whatsappURL = `https://wa.me/${sellerPhoneNumber}`;
+    window.open(whatsappURL, "_blank");
+  };
+
   return (
     <Container>
       <Navbar />
@@ -257,7 +277,9 @@ const Cart = () => {
                       <Email>Email:{product.user?.email}</Email>
                       {/* <Location>Location:</Location> */}
                     </About>
-                    <Chat>Chat with seller</Chat>
+                    <Chat onClick={handleChatWithSeller}>
+                      <i className="fab fa-whatsapp"></i>Chat with seller
+                    </Chat>
                   </SellerDetails>
                 </Details>
               </ProductDetail>
