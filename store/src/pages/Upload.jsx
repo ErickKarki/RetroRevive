@@ -6,6 +6,7 @@ import { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { Navigate, useNavigate } from "react-router-dom";
+import Announcement from "../components/Announcement";
 
 const Container = styled.div`
   width: 100vw;
@@ -56,7 +57,7 @@ const Button = styled.button`
   width: 40%;
   border: none;
   padding: 15px 20px;
-  background-color: teal;
+  background: linear-gradient(145deg, #2b4f73, #3a9cab);
   color: white;
   cursor: pointer;
 `;
@@ -122,6 +123,7 @@ const Upload = () => {
   return (
     <>
       <Navbar />
+      <Announcement />
       <Container>
         <Wrapper>
           <Title>ADD YOUR PRODUCT</Title>

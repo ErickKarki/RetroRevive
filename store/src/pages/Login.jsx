@@ -7,6 +7,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext"; // Adjust the path to where your AuthContext is defined
 import Swal from "sweetalert2";
+import Announcement from "../components/Announcement";
 
 const Container = styled.div`
   width: 100vw;
@@ -50,7 +51,7 @@ const Button = styled.button`
   width: 40%;
   border: none;
   padding: 15px 20px;
-  background-color: teal;
+  background: linear-gradient(145deg, #2b4f73, #3a9cab);
   color: white;
   cursor: pointer;
   margin-bottom: 10px;
@@ -109,6 +110,7 @@ const Login = () => {
   return (
     <>
       <Navbar />
+      <Announcement />
 
       <Container>
         <Wrapper>

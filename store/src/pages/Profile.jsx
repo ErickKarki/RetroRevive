@@ -3,9 +3,9 @@ import { Route, Routes } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import AdminDashboard from "../components/AdminDashboard";
-import UserProductList from "../components/UserProductList"; // Replace with your actual component
-import Messages from "../components/Messages"; // Replace with your actual component
-import Settings from "../components/Settings"; // Replace with your actual component
+import UserProductList from "../components/UserProductList";
+import Messages from "../components/Messages";
+import Settings from "../components/Settings";
 import { Announcement } from "@material-ui/icons";
 import "../Admin.css";
 

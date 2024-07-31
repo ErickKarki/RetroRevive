@@ -67,7 +67,12 @@ const Right = styled.div`
 const MenuItem = styled.button`
   border: none;
   padding: 8px;
-  background-color: ${(props) => (props.upload === "upload" ? "none" : "teal")};
+  /* background-color: ${(props) =>
+    props.upload === "upload" ? "none" : "teal"}; */
+  background: ${(props) =>
+    props.upload === "upload"
+      ? "none"
+      : "linear-gradient(145deg, #2b4f73, #3a9cab)"};
   font-size: 14px;
   color: ${(props) => (props.upload === "upload" ? "black" : "white")};
   cursor: pointer;

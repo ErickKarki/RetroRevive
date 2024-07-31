@@ -6,6 +6,7 @@ import Navbar from "../components/Navbar";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import Announcement from "../components/Announcement";
 
 const Container = styled.div`
   width: 100vw;
@@ -54,7 +55,7 @@ const Button = styled.button`
   width: 40%;
   border: none;
   padding: 15px 20px;
-  background-color: teal;
+  background: linear-gradient(145deg, #2b4f73, #3a9cab);
   color: white;
   cursor: pointer;
 `;
@@ -105,6 +106,7 @@ const Register = () => {
   return (
     <>
       <Navbar />
+      <Announcement />
       <Container>
         <Wrapper>
           <Title>CREATE AN ACCOUNT</Title>

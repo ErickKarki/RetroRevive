@@ -105,7 +105,7 @@ const Chat = styled.button`
   margin-top: 10px;
   width: 40%;
   height: 40px;
-  background-color: teal;
+  background: linear-gradient(145deg, #2b4f73, #3a9cab);
   color: white;
   border: none;
 `;
@@ -140,7 +140,7 @@ const Summary = styled.div`
   border: 0.5px solid lightgray;
   border-radius: 10px;
   padding: 20px;
-  height: 50vh;
+  height: 45vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -165,21 +165,25 @@ const SummaryItemPrice = styled.span``;
 const Button = styled.button`
   width: 100%;
   padding: 10px;
-  background-color: teal;
+  background: linear-gradient(145deg, #2b4f73, #3a9cab);
   color: white;
   font-weight: 600;
   border: none;
+  height: 50px;
   flex: 1;
 `;
 
-const ChatBox = styled.textarea``;
-const TypeAndSend = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-const TextBox = styled.textarea`
-  flex: 5;
-  margin-right: 5px;
+// const ChatBox = styled.textarea``;
+// const TypeAndSend = styled.div`
+//   display: flex;
+//   justify-content: space-between;
+// `;
+// const TextBox = styled.textarea`
+//   flex: 5;
+//   margin-right: 5px;
+// `;
+const HR = styled.hr`
+  padding: 1px;
 `;
 
 const Cart = () => {
@@ -200,7 +204,7 @@ const Cart = () => {
   return (
     <Container>
       <Navbar />
-      {/* <Announcement /> */}
+      <Announcement />
       <Wrapper>
         <Title>YOUR BAG</Title>
         <Top>
@@ -251,28 +255,21 @@ const Cart = () => {
             <Hr />
           </Info>
           <Summary>
-            <SummaryTitle>Chat</SummaryTitle>
-            <ChatBox></ChatBox>
-            {/* <SummaryItem>
+            <SummaryTitle>ORDER SUMMARY</SummaryTitle>
+            <HR />
+            <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>$ 80</SummaryItemPrice>
+              <SummaryItemPrice>Rs.800</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Estimated Shipping</SummaryItemText>
-              <SummaryItemPrice>$ 5.90</SummaryItemPrice>
-            </SummaryItem>
-            <SummaryItem>
-              <SummaryItemText>Shipping Discount</SummaryItemText>
-              <SummaryItemPrice>$ -5.90</SummaryItemPrice>
+              <SummaryItemPrice>Rs.100</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>$ 80</SummaryItemPrice>
-            </SummaryItem> */}
-            <TypeAndSend>
-              <TextBox>Write message...</TextBox>
-              <Button>Send</Button>
-            </TypeAndSend>
+              <SummaryItemPrice>Rs.900</SummaryItemPrice>
+            </SummaryItem>
+            <Button>CHECKOUT NOW</Button>
           </Summary>
         </Bottom>
       </Wrapper>
